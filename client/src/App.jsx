@@ -12,7 +12,7 @@ function App() {
 
   const getTransactions = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/transactions");
+      const res = await axios.get("https://expense-tracker-api-gp7s.onrender.com/api/transactions");
       setTransactions(res.data.data);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -25,7 +25,7 @@ function App() {
 
   const deleteTransaction = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/api/transactions/${id}`);
+      await axios.delete(`https://expense-tracker-api-gp7s.onrender.com/api/transactions/${id}`);
       setTransactions(
         transactions.filter((transaction) => transaction._id !== id)
       );
@@ -43,7 +43,7 @@ function App() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/transactions",
+        "https://expense-tracker-api-gp7s.onrender.com/api/transactions",
         newTransaction,
         config
       );
