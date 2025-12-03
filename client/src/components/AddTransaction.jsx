@@ -7,14 +7,21 @@ const AddTransaction = ({ onAdd }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    if(text.trim() === '' || +amount === 0) {
+      alert('กรุณากรอกข้อมูลให้ครอบถ้วน');
+      return;
+    }
+
     const newTransaction = {
       text,
       amount: +amount
     }
+
     onAdd(newTransaction);
     setText('');
     setAmount(0);
   }
+
   return (
     <div className="mt-8">
       <h3 className="text-lg font-bold border-b-2 border-gray-200 pb-2 mb-4 text-gray-700">
