@@ -59,7 +59,7 @@ const AddTransaction = ({ onAdd }) => {
         </div>
 
         <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-          เพิ่มรายการ (Add Transaction)
+          เพิ่มรายการ
         </button>
       </form>
     </div>

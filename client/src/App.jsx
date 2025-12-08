@@ -6,6 +6,7 @@ import TransactionList from "./components/TransactionList";
 import AddTransaction from "./components/AddTransaction";
 
 import axios from "axios";
+import * as XLSX from 'xlsx';
 
 function App() {
   const [transactions, setTransactions] = useState([]);
@@ -65,11 +66,35 @@ function App() {
     -1
   ).toFixed(2);
 
+  const exportToExcel = () => {
+    if(transactions.length === 0){
+      alert('ไม่มีข้อมูล กรุณาเพิ่มรายการ');
+      return;
+    }
+
+    const dataToExport = transactions.map(t => ({
+      'ชื่อรายการ': t.text,
+      'จำนวนเงิน': t.amount,
+      'วันที่บันทึก': new Date(t.createdAt).toLocaleDateString('th-TH'),
+      'ประเภท': t.amount > 0 ? 'รายรับ' : 'รายจ่าย'
+    }))
+
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'รายรับรายจ่าย');
+
+    const dataStr = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(workbook, `Expense_Report_${dataStr}.xlsx`);
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10">
       <div className="w-full max-w-md p-6">
         <Header />
         <Balance total={total} />
+        <button onClick={exportToExcel} className="mb-4 bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 transition w-full">
+          Export to Excel
+        </button>
         <IncomeExpenses income={income} expense={expense} />
         <TransactionList
           transactions={transactions}
